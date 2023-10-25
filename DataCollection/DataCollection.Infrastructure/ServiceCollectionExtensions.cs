@@ -7,7 +7,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddKafka(this IServiceCollection serviceCollection)
     {
-        return serviceCollection.AddTransient<IProducer, KafkaProducer>();
+        return serviceCollection.AddSingleton<IProducer, KafkaProducer>();
     }
     
     public static IServiceCollection AddApplication(this IServiceCollection serviceCollection)
