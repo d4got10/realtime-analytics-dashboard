@@ -1,11 +1,12 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["DataCollection.API/DataCollection.API.csproj", "DataCollection.API/"]
+COPY ["DataCollection.Application/DataCollection.Application.csproj", "DataCollection.Application/"]
+COPY ["DataCollection.Infrastructure/DataCollection.Infrastructure.csproj", "DataCollection.Infrastructure/"]
 RUN dotnet restore "DataCollection.API/DataCollection.API.csproj"
 COPY . .
 WORKDIR "/src/DataCollection.API"
