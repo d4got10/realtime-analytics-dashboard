@@ -8,6 +8,10 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
     ports:
       - "80:80"
+  data_aggregation:
+    build:
+      context: ./DataAggregation
+      dockerfile: Dockerfile
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
