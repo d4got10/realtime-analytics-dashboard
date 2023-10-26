@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataVisualisation.WebInterface", "DataVisualisation.WebInterface\DataVisualisation.WebInterface.csproj", "{9B002184-613C-4EEF-9E9B-CD6D2F3425DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9B002184-613C-4EEF-9E9B-CD6D2F3425DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B002184-613C-4EEF-9E9B-CD6D2F3425DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B002184-613C-4EEF-9E9B-CD6D2F3425DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B002184-613C-4EEF-9E9B-CD6D2F3425DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
