@@ -1,17 +1,17 @@
 version: '3'
 services:
-  data_collection:
-    build:
-      context: ./DataCollection
-      dockerfile: Dockerfile
-    environment:
-      ASPNETCORE_ENVIRONMENT: Development
+  postgres:
+    image: postgres:16.0
     ports:
-      - "80:80"
-  data_aggregation:
-    build:
-      context: ./DataAggregation
-      dockerfile: Dockerfile
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123
+      POSTGRES_DB: data
+    volumes:
+      - /data:/var/lib/postgresql/data
+    entrypoint: sh -c "chmod 0700 /var/lib/postgresql/data && docker-entrypoint.sh postgres"
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -26,3 +26,19 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     depends_on:
       - zookeeper
+  data_aggregation:
+    depends_on:
+      - kafka
+    build:
+      context: ./DataAggregation
+      dockerfile: Dockerfile
+  data_collection:
+    depends_on: 
+      - kafka
+    build:
+      context: ./DataCollection
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "80:80"

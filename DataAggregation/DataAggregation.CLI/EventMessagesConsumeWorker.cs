@@ -43,7 +43,7 @@ public sealed class EventMessagesConsumeWorker : IHostedService
                 string? eventName = _eventsConsumer.Consume();
                 if (eventName == null) continue;
 
-                _aggregationService.AggregateEvent(eventName);
+                await _aggregationService.AggregateEventAsync(eventName);
                 await Task.Yield();
             }
         }

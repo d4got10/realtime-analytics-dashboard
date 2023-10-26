@@ -6,6 +6,7 @@ WORKDIR /src
 COPY ["DataAggregation.CLI/DataAggregation.CLI.csproj", "DataAggregation.CLI/"]
 COPY ["DataAggregation.Application/DataAggregation.Application.csproj", "DataAggregation.Application/"]
 COPY ["DataAggregation.Infrastructure/DataAggregation.Infrastructure.csproj", "DataAggregation.Infrastructure/"]
+COPY ["DataAggregation.Domain/DataAggregation.Domain.csproj", "DataAggregation.Domain/"]
 RUN dotnet restore "DataAggregation.CLI/DataAggregation.CLI.csproj"
 COPY . .
 WORKDIR "/src/DataAggregation.CLI"

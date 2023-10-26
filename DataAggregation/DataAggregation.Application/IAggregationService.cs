@@ -2,5 +2,5 @@ namespace DataAggregation.Application;
 
 public interface IAggregationService
 {
-    void AggregateEvent(string eventName);
+    Task AggregateEventAsync(string eventName);
 }
