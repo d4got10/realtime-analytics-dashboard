@@ -16,7 +16,7 @@ public class EventsController : ControllerBase
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<EventsController> _logger;
 
-    private const string ApiUrl = "http://localhost:5000/api/events?page_index=0&per_page_count=100";
+    private const string ApiUrl = "http://data_aggregation:5000/api/events?page_index=0&per_page_count=100";
     
     [HttpGet]
     public async Task<IActionResult> Get()

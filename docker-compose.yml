@@ -41,9 +41,22 @@ services:
     depends_on: 
       - kafka
     ports:
-      - "80:80"
+      - "4000:4000"
     build:
       context: ./DataCollection
       dockerfile: Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:4000
+  data_visualisation:
+    depends_on:
+      - data_aggregation
+    ports: 
+      - "80:80"
+      - "443:443"
+    build:
+      context: ./DataVisualisation
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_HOSTINGSTARTUPASSEMBLIES: Microsoft.AspNetCore.SpaProxy
