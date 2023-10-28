@@ -1,22 +1,20 @@
 ﻿using DataAggregation.Application;
 using DataAggregation.Infrastructure;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace DataAggregation.CLI;
+namespace DataAggregation.API.Workers;
 
 public sealed class EventMessagesConsumeWorker : IHostedService
 {
-    public EventMessagesConsumeWorker(IEventsConsumer eventsConsumer, IAggregationService messageWriter, 
+    public EventMessagesConsumeWorker(IEventsConsumer eventsConsumer, IServiceScopeFactory serviceScopeFactory, 
         ILogger<EventMessagesConsumeWorker> logger)
     {
         _eventsConsumer = eventsConsumer;
-        _aggregationService = messageWriter;
+        _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
     }
 
     private readonly IEventsConsumer _eventsConsumer;
-    private readonly IAggregationService _aggregationService;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly ILogger<EventMessagesConsumeWorker> _logger;
 
     private readonly CancellationTokenSource _cts = new();
@@ -43,7 +41,11 @@ public sealed class EventMessagesConsumeWorker : IHostedService
                 string? eventName = _eventsConsumer.Consume();
                 if (eventName == null) continue;
 
-                await _aggregationService.AggregateEventAsync(eventName);
+                using (IServiceScope scope = _serviceScopeFactory.CreateScope())
+                {
+                    var aggregationService = scope.ServiceProvider.GetRequiredService<IAggregationService>();
+                    await aggregationService.AggregateEventAsync(eventName);
+                }
                 await Task.Yield();
             }
         }

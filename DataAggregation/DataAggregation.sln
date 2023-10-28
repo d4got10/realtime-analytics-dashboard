@@ -1,12 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAggregation.CLI", "DataAggregation.CLI\DataAggregation.CLI.csproj", "{65B71C43-C0BD-47A8-832C-2C3C3FCE7B35}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAggregation.Application", "DataAggregation.Application\DataAggregation.Application.csproj", "{1204B40A-C86E-49A0-BB6A-ECBD992E8A16}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAggregation.Infrastructure", "DataAggregation.Infrastructure\DataAggregation.Infrastructure.csproj", "{92871F92-386D-491D-9C75-8DDD035AE0A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAggregation.Domain", "DataAggregation.Domain\DataAggregation.Domain.csproj", "{C315B99B-46D6-4DB7-90F1-2CB54BB0B9FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAggregation.API", "DataAggregation.API\DataAggregation.API.csproj", "{0D51D2EB-B053-4BC8-A6A6-D33EECBDD077}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -14,10 +14,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65B71C43-C0BD-47A8-832C-2C3C3FCE7B35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65B71C43-C0BD-47A8-832C-2C3C3FCE7B35}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65B71C43-C0BD-47A8-832C-2C3C3FCE7B35}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65B71C43-C0BD-47A8-832C-2C3C3FCE7B35}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1204B40A-C86E-49A0-BB6A-ECBD992E8A16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1204B40A-C86E-49A0-BB6A-ECBD992E8A16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1204B40A-C86E-49A0-BB6A-ECBD992E8A16}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,5 +26,9 @@ Global
 		{C315B99B-46D6-4DB7-90F1-2CB54BB0B9FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C315B99B-46D6-4DB7-90F1-2CB54BB0B9FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C315B99B-46D6-4DB7-90F1-2CB54BB0B9FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D51D2EB-B053-4BC8-A6A6-D33EECBDD077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D51D2EB-B053-4BC8-A6A6-D33EECBDD077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D51D2EB-B053-4BC8-A6A6-D33EECBDD077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D51D2EB-B053-4BC8-A6A6-D33EECBDD077}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

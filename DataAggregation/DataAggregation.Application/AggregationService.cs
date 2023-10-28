@@ -4,18 +4,18 @@ namespace DataAggregation.Application;
 
 public class AggregationService : IAggregationService
 {
-    public AggregationService(ILogger<AggregationService> logger, IEventsStorage eventsStorage)
+    public AggregationService(ILogger<AggregationService> logger, IEventsRepository eventsRepository)
     {
         _logger = logger;
-        _eventsStorage = eventsStorage;
+        _eventsRepository = eventsRepository;
     }
 
     private readonly ILogger<AggregationService> _logger;
-    private readonly IEventsStorage _eventsStorage;
+    private readonly IEventsRepository _eventsRepository;
 
     public async Task AggregateEventAsync(string eventName)
     {
         _logger.LogInformation("Aggregated event \"{eventName}\".", eventName);
-        await _eventsStorage.StoreAsync(eventName);
+        await _eventsRepository.AddAsync(eventName);
     }
 }
