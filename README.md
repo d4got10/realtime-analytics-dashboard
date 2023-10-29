@@ -47,3 +47,4 @@ For each API there is a swagger documentation that can be found at ```*host:port
 * [Kafka](https://kafka.apache.org/) for microservice messaging
 * [PostgreSQL 16.0](https://www.postgresql.org/) for persistent data storage
 * [Entity Framework Core](https://learn.microsoft.com/en-us/ef/core/) for database object mapping and migration maganement
+* [ErrorOr](https://github.com/amantinband/error-or) for simple, fluent discriminated unions of errors or a result
