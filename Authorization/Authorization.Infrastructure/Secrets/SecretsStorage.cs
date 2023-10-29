@@ -1,4 +1,5 @@
 ﻿using Authorization.Application;
+using Authorization.Application.Secrets;
 using Microsoft.Extensions.Configuration;
 
 namespace Authorization.Infrastructure.Secrets;

@@ -1,9 +1,11 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Authorization.Application.Secrets;
+using Authorization.Application.Time;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Authorization.Application;
+namespace Authorization.Application.Tokens;
 
 public class JwtTokenFactory : IAccessTokenFactory, IRefreshTokenFactory
 {

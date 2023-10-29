@@ -1,8 +1,10 @@
 ﻿using Authorization.Domain;
 
-namespace Authorization.Application;
+namespace Authorization.Application.Repositories;
 
 public interface IUserRepository
 {
-    Task Add(User user);
+    Task<User?> FindByUsernameAsync(string username, CancellationToken ct);
+    Task<User?> FindByUsernameAsyncNoTracking(string username, CancellationToken ct);
+    Task AddAsync(User user, CancellationToken ct);
 }

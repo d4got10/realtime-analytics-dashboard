@@ -1,4 +1,4 @@
-﻿namespace Authorization.Application;
+﻿namespace Authorization.Application.Secrets;
 
 public interface ISecretStorage
 {

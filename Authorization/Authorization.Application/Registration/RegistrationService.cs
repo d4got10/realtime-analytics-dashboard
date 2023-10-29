@@ -1,28 +1,35 @@
-﻿using Authorization.Domain;
+﻿using Authorization.Application.Credentials;
+using Authorization.Application.Hashing;
+using Authorization.Application.Repositories;
+using Authorization.Application.Tokens;
+using Authorization.Application.UnitsOfWork;
+using Authorization.Domain;
+using ErrorOr;
 
-namespace Authorization.Application;
+namespace Authorization.Application.Registration;
 
 public class RegistrationService : IRegistrationService
 {
     public RegistrationService(
-        IAccessTokenFactory accessTokenFactory, 
-        IRefreshTokenFactory refreshTokenFactory, 
-        IUserRepository userRepository,
+        ITokenPairFactory tokenPairFactory,
+        IUsersUnitOfWork usersUnitOfWork,
         IHashService hashService)
     {
-        _accessTokenFactory = accessTokenFactory;
-        _refreshTokenFactory = refreshTokenFactory;
-        _userRepository = userRepository;
+        _tokenPairFactory = tokenPairFactory;
+        _usersUnitOfWork = usersUnitOfWork;
         _hashService = hashService;
     }
-    
-    private readonly IAccessTokenFactory _accessTokenFactory;
-    private readonly IRefreshTokenFactory _refreshTokenFactory;
-    private readonly IUserRepository _userRepository;
+
+    private readonly ITokenPairFactory _tokenPairFactory;
+    private readonly IUsersUnitOfWork _usersUnitOfWork;
     private readonly IHashService _hashService;
     
-    public async Task<TokenPair> RegisterAsync(UserCredentials credentials)
+    public async Task<ErrorOr<TokenPair>> RegisterAsync(UserCredentials credentials, CancellationToken ct)
     {
+        User? existingUser = await _usersUnitOfWork.Users.FindByUsernameAsyncNoTracking(credentials.Username, ct);
+        if (existingUser != null)
+            return Error.Conflict(description: "User with such username is already registered");
+
         string hashedPassword = _hashService.Hash(credentials.Password, out string salt);
 
         var user = new User
@@ -31,13 +38,13 @@ public class RegistrationService : IRegistrationService
             Password = hashedPassword,
             Salt = salt,
         };
-        
-        string accessToken = _accessTokenFactory.Create(("user-id", user.Id.ToString()));
-        string refreshToken = _refreshTokenFactory.Create(("user-id", user.Id.ToString()));
+        TokenPair tokenPair = _tokenPairFactory.CreateFor(user);
 
-        user.RefreshToken = refreshToken;
-        await _userRepository.Add(user);
+        user.RefreshToken = tokenPair.RefreshToken;
         
-        return new TokenPair(accessToken, refreshToken);
+        await _usersUnitOfWork.Users.AddAsync(user, ct);
+        await _usersUnitOfWork.SaveAsync(ct);
+        
+        return tokenPair;
     }
 }

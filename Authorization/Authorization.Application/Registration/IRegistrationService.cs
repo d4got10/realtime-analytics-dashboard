@@ -1,6 +1,10 @@
-﻿namespace Authorization.Application;
+﻿using Authorization.Application.Credentials;
+using Authorization.Application.Tokens;
+using ErrorOr;
+
+namespace Authorization.Application.Registration;
 
 public interface IRegistrationService
 {
-    Task<TokenPair> RegisterAsync(UserCredentials credentials);
+    Task<ErrorOr<TokenPair>> RegisterAsync(UserCredentials credentials, CancellationToken ct);
 }

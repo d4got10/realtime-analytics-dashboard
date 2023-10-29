@@ -1,4 +1,4 @@
-﻿namespace Authorization.Application;
+﻿namespace Authorization.Application.Time;
 
 public interface IClock
 {

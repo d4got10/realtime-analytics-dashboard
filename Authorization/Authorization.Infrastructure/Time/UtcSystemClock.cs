@@ -1,4 +1,5 @@
 ﻿using Authorization.Application;
+using Authorization.Application.Time;
 
 namespace Authorization.Infrastructure.Time;
 

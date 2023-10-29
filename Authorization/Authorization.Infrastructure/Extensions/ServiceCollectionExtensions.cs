@@ -1,8 +1,17 @@
 ﻿using Authorization.Application;
+using Authorization.Application.Hashing;
+using Authorization.Application.Login;
+using Authorization.Application.Registration;
+using Authorization.Application.Repositories;
+using Authorization.Application.Secrets;
+using Authorization.Application.Time;
+using Authorization.Application.Tokens;
+using Authorization.Application.UnitsOfWork;
 using Authorization.Infrastructure.Data;
 using Authorization.Infrastructure.Repositories;
 using Authorization.Infrastructure.Secrets;
 using Authorization.Infrastructure.Time;
+using Authorization.Infrastructure.UnitsOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,9 +32,11 @@ public static class ServiceCollectionExtensions
         collection.AddScoped<IHashService, HashService>();
         collection.AddScoped<ISecretStorage, SecretsStorage>();
         collection.AddScoped<IRegistrationService, RegistrationService>();
+        collection.AddScoped<ILoginService, LoginService>();
         collection.AddScoped<IClock, UtcSystemClock>();
 
         collection.AddScoped<IUserRepository, UserRepository>();
+        collection.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
         
         collection.AddTokenFactories(configuration);
 
@@ -54,5 +65,7 @@ public static class ServiceCollectionExtensions
             var settings = new JwtTokenSettings(TimeSpan.FromSeconds(refreshTokenDuration), issuer, audience);
             return new JwtTokenFactory(clock, secretStorage, settings);
         });
+
+        collection.AddScoped<ITokenPairFactory, TokenPairFactory>();
     }
 }
