@@ -26,7 +26,7 @@ public class JwtTokenFactory : IAccessTokenFactory, IRefreshTokenFactory
         var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretStorage.SecretKey));
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: _clock.Now + _settings.Duration,
+            expires: _clock.UtcNow.Add(_settings.Duration),
             issuer: _settings.Issuer,
             audience: _settings.Audience,
             signingCredentials: new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256)

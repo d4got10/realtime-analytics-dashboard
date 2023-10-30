@@ -1,5 +1,4 @@
-﻿using Authorization.Application;
-using Authorization.Application.Hashing;
+﻿using Authorization.Application.Hashing;
 using Authorization.Application.Login;
 using Authorization.Application.Registration;
 using Authorization.Application.Repositories;
@@ -38,12 +37,12 @@ public static class ServiceCollectionExtensions
         collection.AddScoped<IUserRepository, UserRepository>();
         collection.AddScoped<IUsersUnitOfWork, UsersUnitOfWork>();
         
-        collection.AddTokenFactories(configuration);
+        collection.AddTokenRelatedStuff(configuration);
 
         return collection;
     }
 
-    private static void AddTokenFactories(this IServiceCollection collection, IConfiguration configuration)
+    private static void AddTokenRelatedStuff(this IServiceCollection collection, IConfiguration configuration)
     {
         string issuer = configuration["Tokens:Issuer"]!;
         string audience = configuration["Tokens:Audience"]!;
@@ -67,5 +66,13 @@ public static class ServiceCollectionExtensions
         });
 
         collection.AddScoped<ITokenPairFactory, TokenPairFactory>();
+        
+        collection.AddScoped<ITokenValidator>(services =>
+        {
+            var clock = services.GetRequiredService<IClock>();
+            var secretStorage = services.GetRequiredService<ISecretStorage>();
+            var settings = new JwtTokenSettings(TimeSpan.FromSeconds(refreshTokenDuration), issuer, audience);
+            return new JwtTokenValidator(clock, secretStorage, settings);
+        });
     }
 }
