@@ -11,14 +11,14 @@ namespace Authorization.Endpoints;
 
 public class LoginEndpoint : Endpoint<Credentials, Results<Ok<Tokens>, BadRequest<BadRequestPayload>>>
 {
-    public LoginEndpoint(ILogger<RegisterEndpoint> logger, ILoginService loginService)
+    public LoginEndpoint(ILogger<LoginEndpoint> logger, ILoginService loginService)
     {
         _loginService = loginService;
         _logger = logger;
     }
     
     private readonly ILoginService _loginService;
-    private readonly ILogger<RegisterEndpoint> _logger;
+    private readonly ILogger<LoginEndpoint> _logger;
 
     public override void Configure()
     {
