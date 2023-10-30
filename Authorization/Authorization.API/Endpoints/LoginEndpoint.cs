@@ -1,6 +1,7 @@
 using Authorization.Application.Credentials;
 using Authorization.Application.Login;
 using Authorization.Application.Tokens;
+using Authorization.Application.Tokens.Common;
 using Authorization.Requests;
 using Authorization.Responses;
 using ErrorOr;
@@ -33,14 +34,15 @@ public class LoginEndpoint : Endpoint<Credentials, Results<Ok<Tokens>, BadReques
         ErrorOr<TokenPair> errorOrTokenPair = await _loginService.LoginAsync(userCredentials, ct);
         if (errorOrTokenPair.IsError)
         {
-            IEnumerable<string> errorDescriptions = errorOrTokenPair.Errors.Select(error => error.Description).ToList();
+            List<KeyValuePair<string, string>> errors = errorOrTokenPair.Errors
+                .Select(error => new KeyValuePair<string, string>(error.Code, error.Description)).ToList();
             
-            string errorsMessage = string.Join('\n', errorDescriptions);
+            string errorsMessage = string.Join('\n', errors);
             _logger.LogInformation("Didn't log in {username}! Reason: {errorsMessage}", credentials.Username, errorsMessage);
             
             return TypedResults.BadRequest(new BadRequestPayload
             {
-                Errors = errorDescriptions
+                Errors = errors
             });
         }
         

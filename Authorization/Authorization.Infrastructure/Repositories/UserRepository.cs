@@ -14,6 +14,11 @@ public class UserRepository : IUserRepository
 
     private readonly ApplicationDbContext _dbContext;
 
+    public async Task<User?> FindByIdAsync(Guid id, CancellationToken ct)
+    {
+        return await _dbContext.Users.FindAsync(new object[] { id }, ct);
+    }
+    
     public async Task<User?> FindByUsernameAsync(string username, CancellationToken ct)
     {
         return await _dbContext.Users.FirstOrDefaultAsync(user => user.Username == username, ct);

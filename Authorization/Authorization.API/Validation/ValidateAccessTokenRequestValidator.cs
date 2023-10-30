@@ -4,11 +4,11 @@ using FluentValidation;
 
 namespace Authorization.Validation;
 
-public class ValidateAccessTokenRequestValidator : Validator<ValidateAccessTokenRequest>
+public class ValidateAccessTokenRequestValidator : Validator<ValidateTokenRequest>
 {
     public ValidateAccessTokenRequestValidator()
     {
-        RuleFor(x => x.AccessToken)
+        RuleFor(x => x.Token)
             .NotEmpty()
             .WithMessage("Access token is required");
     }

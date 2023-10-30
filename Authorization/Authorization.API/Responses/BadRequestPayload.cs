@@ -2,5 +2,5 @@
 
 public class BadRequestPayload
 {
-    public IEnumerable<string> Errors { get; set; }
+    public IEnumerable<KeyValuePair<string, string>> Errors { get; set; }
 }

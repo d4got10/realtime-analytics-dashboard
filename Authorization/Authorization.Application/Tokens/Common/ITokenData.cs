@@ -1,4 +1,4 @@
-﻿namespace Authorization.Application.Tokens;
+﻿namespace Authorization.Application.Tokens.Common;
 
 public readonly struct TokenData
 {

@@ -1,6 +1,8 @@
-﻿using Authorization.Domain;
+﻿using Authorization.Application.Tokens.Common;
+using Authorization.Application.Tokens.Extensions;
+using Authorization.Domain;
 
-namespace Authorization.Application.Tokens;
+namespace Authorization.Application.Tokens.Factories;
 
 public class TokenPairFactory : ITokenPairFactory
 {
@@ -10,15 +12,13 @@ public class TokenPairFactory : ITokenPairFactory
         _refreshTokenFactory = refreshTokenFactory;
     }
 
-    public const string TokenUserIdClaimKey = "user-id";
-    
     private readonly IAccessTokenFactory _accessTokenFactory;
     private readonly IRefreshTokenFactory _refreshTokenFactory;
 
     public TokenPair CreateFor(User user)
     {
-        string accessToken = _accessTokenFactory.Create((TokenUserIdClaimKey, user.Id.ToString()));
-        string refreshToken = _refreshTokenFactory.Create((TokenUserIdClaimKey, user.Id.ToString()));
+        string accessToken = _accessTokenFactory.Create((ClaimType.UserId.ToClaimString(), user.Id.ToString()));
+        string refreshToken = _refreshTokenFactory.Create((ClaimType.UserId.ToClaimString(), user.Id.ToString()));
         
         return new TokenPair(accessToken, refreshToken);
     }

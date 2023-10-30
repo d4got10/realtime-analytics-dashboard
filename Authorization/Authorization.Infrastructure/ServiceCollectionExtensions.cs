@@ -5,6 +5,10 @@ using Authorization.Application.Repositories;
 using Authorization.Application.Secrets;
 using Authorization.Application.Time;
 using Authorization.Application.Tokens;
+using Authorization.Application.Tokens.Common;
+using Authorization.Application.Tokens.Factories;
+using Authorization.Application.Tokens.Services;
+using Authorization.Application.Tokens.Validators;
 using Authorization.Application.UnitsOfWork;
 using Authorization.Infrastructure.Data;
 using Authorization.Infrastructure.Repositories;
@@ -48,6 +52,8 @@ public static class ServiceCollectionExtensions
         string audience = configuration["Tokens:Audience"]!;
         int accessTokenDuration = int.Parse(configuration["Tokens:AccessTokenDuration"]!);
         int refreshTokenDuration = int.Parse(configuration["Tokens:RefreshTokenDuration"]!);
+
+        collection.AddScoped<ITokenService, TokenService>();
 
         collection.AddScoped<IAccessTokenFactory>(services =>
         {

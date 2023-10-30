@@ -1,6 +1,8 @@
 ﻿using Authorization.Application.Credentials;
 using Authorization.Application.Hashing;
 using Authorization.Application.Tokens;
+using Authorization.Application.Tokens.Common;
+using Authorization.Application.Tokens.Factories;
 using Authorization.Application.UnitsOfWork;
 using Authorization.Domain;
 using ErrorOr;

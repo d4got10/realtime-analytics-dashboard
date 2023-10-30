@@ -2,10 +2,11 @@
 using System.Text;
 using Authorization.Application.Secrets;
 using Authorization.Application.Time;
+using Authorization.Application.Tokens.Common;
 using ErrorOr;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Authorization.Application.Tokens;
+namespace Authorization.Application.Tokens.Validators;
 
 public class JwtTokenValidator : ITokenValidator
 {
@@ -24,7 +25,8 @@ public class JwtTokenValidator : ITokenValidator
     {
         var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_secretStorage.SecretKey));
         var tokenHandler = new JwtSecurityTokenHandler();
-        
+
+        bool tokenHasExpired = false;
         TokenValidationResult? validationResult = await tokenHandler.ValidateTokenAsync(token, new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
@@ -37,22 +39,30 @@ public class JwtTokenValidator : ITokenValidator
             LifetimeValidator = ValidateLifetime,
             ClockSkew = TimeSpan.Zero
         });
-        
-        if (!validationResult.IsValid) 
-            return Error.Validation(description: "Token is invalid");
+
+        if (!validationResult.IsValid)
+        {
+            if (tokenHasExpired)
+            {
+                return Error.Validation(code: "Token.Validation.Lifetime", description: "Token has expired");
+            }
+
+            return Error.Validation(code: "Token.Validation.General", description: "Token is invalid");
+        }
         
         return new TokenData
         {
             Data = validationResult.Claims.Select(e => new KeyValuePair<string, string>(e.Key, e.Value.ToString()!))
         };
-    }
-
-    private bool ValidateLifetime(
-        DateTime? notbefore, 
-        DateTime? expires, 
-        SecurityToken securitytoken, 
-        TokenValidationParameters validationparameters)
-    {
-        return expires >= _clock.UtcNow;
+        
+        bool ValidateLifetime(
+            DateTime? notBefore, 
+            DateTime? expires, 
+            SecurityToken securityToken, 
+            TokenValidationParameters validationParameters)
+        {
+            tokenHasExpired = expires < _clock.UtcNow;
+            return !tokenHasExpired;
+        }
     }
 }
